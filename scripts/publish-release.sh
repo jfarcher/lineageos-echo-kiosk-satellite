@@ -65,6 +65,17 @@ BUILT="$(ls -t "$OUT"/lineage-18.1-*-"$DEVICE".zip 2>/dev/null | head -n 1)"
 DEVICE="$DEVICE" "$REPO_ROOT/scripts/check-image.sh" "" "$BUILT" ||
   fail "the image failed its checks, do not release it"
 
+# The private key must be the one whose public half the images ship, or the
+# Echos reject every release signed with it.
+KEY="${BISCUIT_OTA_KEY:-$HOME/.config/biscuit-ota/release-key.pem}"
+PUBLIC="$REPO_ROOT/common/ota/release-key.pem"
+[[ "$DEVICE" == biscuit ]] && PUBLIC="$REPO_ROOT/device/biscuit/ota/release-key.pem"
+[[ -f "$KEY" ]] || fail "no private key at $KEY (set BISCUIT_OTA_KEY)"
+key_fp="$(openssl pkey -in "$KEY" -pubout -outform DER | sha256sum | cut -c1-16)"
+public_fp="$(openssl pkey -pubin -in "$PUBLIC" -outform DER | sha256sum | cut -c1-16)"
+[[ "$key_fp" == "$public_fp" ]] ||
+  fail "the private key $KEY ($key_fp) is not the one for ${PUBLIC#"$REPO_ROOT"/} ($public_fp): use the matching key"
+
 mkdir -p "$DIST"
 ZIP="$DIST/lineageos-echo-kiosk-satellite-$RELEASE-$DEVICE.zip"
 cp "$BUILT" "$ZIP"
