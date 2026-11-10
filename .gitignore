@@ -1,6 +1,31 @@
 # The LineageOS tree, ccache and build output, or a symlink to them
 workspace
 
+# Private keys and certificates. The release signing key lives outside the
+# repository (~/.config/biscuit-ota/release-key.pem). Only the public halves
+# that the images ship to check update signatures are tracked.
+*.pem
+!common/ota/release-key.pem
+!device/biscuit/ota/release-key.pem
+*.key
+*.pk8
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*.cer
+*.der
+*.x509
+
+# Release files made by scripts/sign-release.sh
+lineageos-echo-kiosk-satellite-*.zip
+lineageos-echo-kiosk-satellite-*.zip.sig
+lineageos-echo-kiosk-satellite-*.zip.sha256
+lineage-*.zip
+lineage-*.zip.sig
+lineage-*.zip.sha256
+
 # Local notes and tools
 issues/
 .internal

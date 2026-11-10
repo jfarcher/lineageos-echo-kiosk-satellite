@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  SPDX-FileCopyrightText: 2025 The LineageOS Project
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+<!-- These resources are around just to allow their values to be customized
+     for different hardware and product builds.  Do not translate.
+
+     NOTE: The naming convention is "config_camelCaseValue". Some legacy
+     entries do not follow the convention, but all new entries should. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Defines the blacklist for system icons.  That is to say, the icons in the status bar that
+         are part of the blacklist are never displayed. Each item in the blacklist must be a string
+         defined in core/res/res/config.xml to properly blacklist the icon.
+     -->
+    <string-array name="config_statusBarIconBlackList" translatable="false">
+        <item>@*android:string/status_bar_battery</item>
+        <item>@*android:string/status_bar_rotate</item>
+        <item>@*android:string/status_bar_headset</item>
+    </string-array>
+
+    <!-- the padding on the top of the statusbar (usually 0) -->
+    <dimen name="status_bar_padding_top">40.0px</dimen>
+
+    <integer name="quick_qs_panel_max_columns">4</integer>
+
+    <!-- Adjust the icon padding in status bar for rounded corners. -->
+    <dimen name="rounded_corner_content_padding">95.0px</dimen>
+</resources>

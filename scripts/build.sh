@@ -63,6 +63,7 @@ device_name() {
     crown) echo "Echo Show 8 (1st gen)" ;;
     cronos) echo "Echo Show 5 (2nd gen)" ;;
     checkers) echo "Echo Show 5 (1st gen)" ;;
+    rook) echo "Echo Spot (1st gen)" ;;
   esac
 }
 

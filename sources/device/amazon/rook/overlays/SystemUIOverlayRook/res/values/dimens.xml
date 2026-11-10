@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2026 The LineageOS Project
+  SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <dimen name="notification_side_paddings">32dp</dimen>
+    <dimen name="qs_quick_header_panel_height">96dp</dimen>
+    <dimen name="qs_notification_padding">4dp</dimen>
+    <dimen name="notification_section_divider_height">4dp</dimen>
+    <dimen name="qs_tile_layout_margin_side">32dp</dimen>
+    <dimen name="qs_footer_padding_start">48dp</dimen>
+    <dimen name="qs_footer_padding_end">48dp</dimen>
+    <dimen name="qs_panel_padding_bottom">16dp</dimen>
+
+    <dimen name="keyguard_lock_padding">4dp</dimen>
+    <dimen name="keyguard_clock_notifications_margin">8dp</dimen>
+    <dimen name="widget_big_font_size">44dp</dimen>
+</resources>

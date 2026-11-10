@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2026 The LineageOS Project
+  SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <dimen name="config_default_keyboard_height">176dp</dimen>
+    <fraction name="config_max_keyboard_height">40%p</fraction>
+    <fraction name="config_min_keyboard_height">35%p</fraction>
+    <fraction name="config_keyboard_left_padding">10%p</fraction>
+    <fraction name="config_keyboard_right_padding">10%p</fraction>
+</resources>

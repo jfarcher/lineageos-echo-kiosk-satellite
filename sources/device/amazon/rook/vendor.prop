@@ -1,0 +1,16 @@
+# Audio
+ro.hardware.audio.primary=amazon_wrapper
+
+# Bluetooth
+persist.bluetooth.enablenewavrcp=false
+
+# Camera
+persist.vendor.camera.facing=1
+persist.vendor.camera.orientation=0
+ro.camera.capture_support_level=3
+
+# Power
+ro.vendor.power.wall_powered=true
+
+# Sensors
+ro.hardware.sensors=amazon

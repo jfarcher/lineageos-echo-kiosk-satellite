@@ -1,0 +1,68 @@
+# Unpinned blobs from Amazon/rook/rook:5.1.1/LVY48F/304.6.4.7_user_647591020:user/release-keys
+
+# Audio
+lib/libasp.so
+lib/libaspclient.so
+lib/libsmartvolume.so
+lib/hw/audio.primary.mt8163.so:vendor/lib/hw/audio.primary_amazon.mt8163.so
+lib/libaudiocompensationfilter.so:vendor/lib/libaudiocompensationfilter.so
+lib/libaudiocomponentengine.so:vendor/lib/libaudiocomponentengine.so
+lib/libaudiocustparam.so:vendor/lib/libaudiocustparam.so
+lib/libaudiodcrflt.so:vendor/lib/libaudiodcrflt.so
+lib/libaudiosetting.so:vendor/lib/libaudiosetting.so
+lib/libaudiostream_jni.so:vendor/lib/libaudiostream_jni.so
+lib/libaudiostream.so:vendor/lib/libaudiostream.so
+lib/libbessound_hd_mtk.so:vendor/lib/libbessound_hd_mtk.so
+lib/libblisrc.so:vendor/lib/libblisrc.so
+lib/libblisrc32.so:vendor/lib/libblisrc32.so
+lib/libcvsd_mtk.so:vendor/lib/libcvsd_mtk.so
+lib/libmsbc_mtk.so:vendor/lib/libmsbc_mtk.so
+lib/libmtklimiter.so:vendor/lib/libmtklimiter.so
+lib/libmtkplayer.so:vendor/lib/libmtkplayer.so
+lib/libmtkshifter.so:vendor/lib/libmtkshifter.so
+lib/libsmartvolume.so:vendor/lib/libsmartvolume.so
+lib/libspeech_enh_lib.so:vendor/lib/libspeech_enh_lib.so
+
+# Audio (Configs)
+etc/audio_device.xml
+vendor/etc/audio-algorithms/AFE.cfg
+vendor/etc/audio-algorithms/coefs_FBF.cfg
+vendor/etc/audio-algorithms/coefs_FilterBank_160.cfg
+vendor/etc/audio-algorithms/coefs_FilterBank_640.cfg
+vendor/etc/audio-algorithms/coefs_FilterBank_AnalysisSynthesis_1024.cfg
+vendor/etc/audio-algorithms/coefs_FilterBank_AnalysisSynthesis_1280.cfg
+vendor/etc/audio-algorithms/EQ.cfg
+vendor/etc/audio-algorithms/MBCL_1.5W_Audio.cfg
+vendor/etc/audio-algorithms/MBCL_1.5W.cfg
+vendor/etc/audio-algorithms/MBCL_1.5W_Video.cfg
+vendor/etc/audio-algorithms/MBCL_1W_Audio.cfg
+vendor/etc/audio-algorithms/MBCL_1W_Video.cfg
+vendor/etc/audio-algorithms/MBCL_2W_Audio.cfg
+vendor/etc/audio-algorithms/MBCL_2W.cfg
+vendor/etc/audio-algorithms/MBCL_2W_Video.cfg
+vendor/etc/audio-algorithms/MBCL_VOIP.cfg
+vendor/etc/audio-algorithms/UserEQ.cfg
+vendor/etc/audio-algorithms/VOIPRxParametricEQ.cfg
+vendor/etc/audio-algorithms/VOIPTxParametricEQ.cfg
+
+# Bluetooth
+system/vendor/firmware/BCM43569A2_001.003.004.0142.0191.hcd:vendor/firmware/BCM43569A2_001.003.004.0142.0191.hcd
+
+# Camera (tuning)
+lib/libcameracustom.so:vendor/lib/libcameracustom_rook.so|d93ffe3ddeeefaa656ac52887dcb0e63018a5640|5712290bd959499e5184388d4d00ce42abbbae11
+
+# Camera (tuning logic) - from checkers
+-system/vendor/lib/libcameracustom.so:vendor/lib/libcameracustom_n.so|6cf014899b5bcdf53b8373920207741c70f4ea2a|066f7c97af590f60cb9cd70c56279077eae527d0
+
+# NVRAM
+bin/nvram_daemon:vendor/bin/nvram_daemon
+lib/libcustom_nvram.so:vendor/lib/libcustom_nvram.so
+lib/libfile_op.so:vendor/lib/libfile_op.so
+lib/libnvram.so:vendor/lib/libnvram.so
+lib/libnvram_daemon_callback.so:vendor/lib/libnvram_daemon_callback.so
+lib/libnvram_platform.so:vendor/lib/libnvram_platform.so
+lib/libnvramagentclient.so:vendor/lib/libnvramagentclient.so
+
+# Wi-Fi
+system/vendor/firmware/brcm/bcm43569a2-firmware.bin:vendor/firmware/bcm43569a2-firmware.bin
+system/vendor/firmware/brcm/bcm43569a2.nvm:vendor/firmware/bcm43569a2.nvm

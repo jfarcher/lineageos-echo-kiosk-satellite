@@ -1,6 +1,6 @@
-DEVICES := crown cronos checkers biscuit
+DEVICES := crown cronos checkers rook biscuit
 
-.PHONY: sync docker stage test check $(DEVICES)
+.PHONY: sync docker stage test check release $(DEVICES)
 
 sync:
 	./scripts/sync.sh
@@ -16,6 +16,9 @@ $(DEVICES):
 
 check:
 	DEVICE=$(DEVICE) ./scripts/check-image.sh
+
+release:
+	DEVICE=$(DEVICE) ./scripts/publish-release.sh
 
 test:
 	bash tests/test-stage-tree.sh

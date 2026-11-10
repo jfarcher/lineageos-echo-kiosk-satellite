@@ -21,6 +21,17 @@ for show in crown cronos checkers; do
   inherits "$show" | grep -q 'vendor/kiosk-satellite/config/show.mk' || fail "$show does not inherit show.mk"
 done
 
+# The Echo Spot's tree is this repository's own (sources/), so it inherits the
+# layers in lineage_rook.mk itself instead of through a patch.
+SPOT=sources/device/amazon/rook/lineage_rook.mk
+grep -q 'vendor/kiosk-satellite/config/common.mk' "$SPOT" || fail "rook does not inherit common.mk"
+grep -q 'vendor/kiosk-satellite/config/show.mk' "$SPOT" || fail "rook does not inherit show.mk"
+grep -q 'device/kiosk-satellite/rook/device.mk' "$SPOT" || fail "rook does not inherit its device layer"
+! grep -q -E 'kiosk-satellite/(crown|cronos|checkers)' "$SPOT" || fail "rook inherits another Echo Show's layer"
+for show in crown cronos checkers; do
+  ! inherits "$show" | grep -q 'kiosk-satellite/rook' || fail "$show inherits the Echo Spot's layer"
+done
+
 # Each Echo Show gets its own device layer and not the other's.
 inherits crown | grep -q 'device/kiosk-satellite/crown/device.mk' || fail "crown does not inherit its device layer"
 inherits cronos | grep -q 'device/kiosk-satellite/cronos/device.mk' || fail "cronos does not inherit its device layer"

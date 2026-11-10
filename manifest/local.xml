@@ -23,6 +23,8 @@
   <project path="kernel/amazon/mt66xx-wifi"   name="android_kernel_amazon_mt66xx-wifi"   remote="amazon-oss" />
   <project path="kernel/amazon/mt76x8-bt"     name="android_kernel_amazon_mt76x8-bt"     remote="amazon-oss" />
   <project path="kernel/amazon/mt76x8-wifi"   name="android_kernel_amazon_mt76x8-wifi"   remote="amazon-oss" />
+  <!-- The Echo Spot's Broadcom Wi-Fi module (the Show 5 and 8 use MediaTek's). -->
+  <project path="kernel/amazon/bcmdhd"        name="android_kernel_amazon_amzn-bcmdhd"   remote="amazon-oss" />
 
   <project path="hardware/amazon"          name="android_hardware_amazon"          remote="amazon-oss" />
   <project path="hardware/mediatek/mt66xx" name="android_hardware_mediatek_mt66xx" remote="amazon-oss" />

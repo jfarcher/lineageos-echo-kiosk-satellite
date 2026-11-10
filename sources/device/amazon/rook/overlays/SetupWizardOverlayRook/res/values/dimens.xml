@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2026 The LineageOS Project
+  SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <dimen name="sud_glif_margin_sides">56dp</dimen>
+    <dimen name="sud_glif_margin_top">72dp</dimen>
+    <dimen name="sud_glif_button_margin_start">64dp</dimen>
+    <dimen name="sud_glif_button_margin_end">64dp</dimen>
+    <dimen name="suc_customization_button_margin_start">64dp</dimen>
+    <dimen name="suc_customization_button_margin_end">64dp</dimen>
+</resources>

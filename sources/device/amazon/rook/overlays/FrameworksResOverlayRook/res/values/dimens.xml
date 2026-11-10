@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: 2025 The LineageOS Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Whether the main built-in display is round. This will affect
+         Configuration.screenLayout's SCREENLAYOUT_ROUND_MASK flags for Configurations on the
+         main built-in display. Change this in device-specific overlays.
+         Defaults to the older, deprecated config_windowIsRound already used in
+         some existing device-specific resource overlays. -->
+    <bool name="config_mainBuiltInDisplayIsRound">true</bool>
+
+    <!-- Height of the status bar in portrait.
+         Do not read this dimen directly. Use {@link SystemBarUtils#getStatusBarHeight} instead.
+         -->
+    <dimen name="status_bar_height_portrait">80px</dimen>
+
+    <!-- Default radius of the software rounded corners. -->
+    <!-- 480 / 2 for a fully rounded display -->
+    <dimen name="rounded_corner_radius">240px</dimen>
+    <dimen name="rounded_corner_radius_top">240px</dimen>
+    <dimen name="rounded_corner_radius_bottom">240px</dimen>
+
+    <!-- Height of the bottom navigation / system bar. -->
+    <dimen name="navigation_bar_height">60px</dimen>
+
+    <!-- Keep list items clear of the round edges. -->
+    <dimen name="list_item_padding_horizontal_material">56dp</dimen>
+    <dimen name="list_item_padding_start_material">56dp</dimen>
+    <dimen name="list_item_padding_end_material">56dp</dimen>
+</resources>

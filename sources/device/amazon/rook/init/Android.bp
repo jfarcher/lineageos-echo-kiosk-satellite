@@ -1,0 +1,7 @@
+prebuilt_etc {
+    name: "init.target.rook.rc",
+    filename: "init.target.rc",
+    src: "init.target.rook.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}

@@ -59,7 +59,7 @@ final class SystemUpdate {
     static final String CHANGED = "me.jxl.echo.service.SYSTEM_UPDATE_CHANGED";
 
     private static final String RELEASES =
-            "https://api.github.com/repos/jxlarrea/lineageos-echo-kiosk-satellite/releases?per_page=100";
+            "https://api.github.com/repos/jfarcher/lineageos-echo-kiosk-satellite/releases?per_page=100";
     // Another releases list in GitHub's format, to test an update before it
     // is published. The release signature is checked all the same.
     private static final String RELEASES_PROPERTY = "persist.echo.ota.releases";
