@@ -2,7 +2,7 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## Unreleased
+## 2026.11.1 - 2026-11-10
 
 ### Added
 - **Echo Spot (1st gen) on LineageOS 18.1, not yet tested on hardware.** The repository carries the amazon-oss `rook` device and vendor trees by R0rt1z2 and bengris32 in `sources/`, with the Kiosk Satellite Edition layer on top: EchoService, Kiosk Satellite on first boot, pryond, system updates and the Kiosk Satellite boot animation. The model reads Echo Spot (KS). EchoService names the Spot `echo-spot-ks` and the end of its serial on the network.
