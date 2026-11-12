@@ -28,8 +28,8 @@ DIST="$WORKSPACE_DIR/releases"
 fail() { echo "ERROR: $*" >&2; exit 1; }
 
 case "$DEVICE" in
-  biscuit|crown|cronos|checkers|rook) ;;
-  *) fail "set DEVICE to biscuit, crown, cronos, checkers or rook" ;;
+  biscuit|donut|crown|cronos|checkers|athena|rook) ;;
+  *) fail "set DEVICE to biscuit, donut, crown, cronos, checkers, athena or rook" ;;
 esac
 for tool in gh git openssl sha256sum unzip; do
   command -v "$tool" >/dev/null || fail "required tool not found: $tool"
@@ -69,7 +69,7 @@ DEVICE="$DEVICE" "$REPO_ROOT/scripts/check-image.sh" "" "$BUILT" ||
 # Echos reject every release signed with it.
 KEY="${BISCUIT_OTA_KEY:-$HOME/.config/biscuit-ota/release-key.pem}"
 PUBLIC="$REPO_ROOT/common/ota/release-key.pem"
-[[ "$DEVICE" == biscuit ]] && PUBLIC="$REPO_ROOT/device/biscuit/ota/release-key.pem"
+[[ "$DEVICE" == biscuit || "$DEVICE" == donut ]] && PUBLIC="$REPO_ROOT/common/dot/ota/release-key.pem"
 [[ -f "$KEY" ]] || fail "no private key at $KEY (set BISCUIT_OTA_KEY)"
 key_fp="$(openssl pkey -in "$KEY" -pubout -outform DER | sha256sum | cut -c1-16)"
 public_fp="$(openssl pkey -pubin -in "$PUBLIC" -outform DER | sha256sum | cut -c1-16)"

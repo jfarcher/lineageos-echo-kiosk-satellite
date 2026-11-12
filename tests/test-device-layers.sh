@@ -15,7 +15,24 @@ inherits() {
 
 inherits biscuit | grep -q 'vendor/kiosk-satellite/config/common.mk' || fail "biscuit does not inherit common.mk"
 ! inherits biscuit | grep -q 'vendor/kiosk-satellite/config/show.mk' || fail "biscuit inherits the Echo Shows' show.mk"
-! grep -rq 'kiosk-satellite/config/show.mk' device/biscuit sources/device/amazon/biscuit || fail "the Dot's layer pulls in show.mk"
+! grep -rq 'kiosk-satellite/config/show.mk' device/biscuit device/donut common/dot common/config/dot.mk \
+    sources/device/amazon/biscuit sources/device/amazon/donut || fail "a Dot's layer pulls in show.mk"
+
+# Both Echo Dots inherit dot.mk through their own device layer, and no Echo
+# Show does. The Echo Dot (3rd gen) has a device tree of its own in sources/.
+DONUT_MK=sources/device/amazon/donut/lineage_donut.mk
+grep -q 'vendor/kiosk-satellite/config/common.mk' "$DONUT_MK" || fail "donut does not inherit common.mk"
+grep -q 'device/kiosk-satellite/donut/device.mk' "$DONUT_MK" || fail "donut does not inherit its device layer"
+! grep -q -E 'kiosk-satellite/(config/show.mk|biscuit|athena|crown|cronos|checkers|rook)' "$DONUT_MK" || fail "donut inherits another Echo's layer"
+for dot in biscuit donut; do
+  grep -q 'vendor/kiosk-satellite/config/dot.mk' "device/$dot/device.mk" || fail "$dot does not inherit dot.mk"
+done
+! grep -rq 'kiosk-satellite/config/dot.mk' device/crown device/cronos device/checkers device/athena device/rook \
+    common/config/common.mk common/config/show.mk sources/device/amazon/athena sources/device/amazon/rook || fail "an Echo Show pulls in dot.mk"
+# One Dot's settings are not in the layer both share.
+for part in ro.biscuit.ota.dir media_vol_default flinger_standbytime wall_powered persist.sys.fuse; do
+  ! grep -Fq "$part" common/config/dot.mk || fail "dot.mk has $part, which each Dot sets"
+done
 for show in crown cronos checkers; do
   inherits "$show" | grep -q 'vendor/kiosk-satellite/config/common.mk' || fail "$show does not inherit common.mk"
   inherits "$show" | grep -q 'vendor/kiosk-satellite/config/show.mk' || fail "$show does not inherit show.mk"
@@ -27,7 +44,7 @@ SPOT=sources/device/amazon/rook/lineage_rook.mk
 grep -q 'vendor/kiosk-satellite/config/common.mk' "$SPOT" || fail "rook does not inherit common.mk"
 grep -q 'vendor/kiosk-satellite/config/show.mk' "$SPOT" || fail "rook does not inherit show.mk"
 grep -q 'device/kiosk-satellite/rook/device.mk' "$SPOT" || fail "rook does not inherit its device layer"
-! grep -q -E 'kiosk-satellite/(crown|cronos|checkers)' "$SPOT" || fail "rook inherits another Echo Show's layer"
+! grep -q -E 'kiosk-satellite/(config/dot.mk|biscuit|donut|athena|crown|cronos|checkers)' "$SPOT" || fail "rook inherits another Echo's layer"
 for show in crown cronos checkers; do
   ! inherits "$show" | grep -q 'kiosk-satellite/rook' || fail "$show inherits the Echo Spot's layer"
 done
@@ -41,6 +58,27 @@ inherits checkers | grep -q 'device/kiosk-satellite/checkers/device.mk' || fail 
 ! inherits checkers | grep -q -E 'kiosk-satellite/(crown|cronos)' || fail "checkers inherits another Echo Show's layer"
 ! inherits crown | grep -q 'kiosk-satellite/checkers' || fail "crown inherits the checkers layer"
 ! inherits cronos | grep -q 'kiosk-satellite/checkers' || fail "cronos inherits the checkers layer"
+
+# The Echo Show 8 (2nd gen) has a device tree of its own in sources/, which
+# inherits the layers itself instead of through a patch.
+ATHENA_MK=sources/device/amazon/athena/lineage_athena.mk
+grep -q 'vendor/kiosk-satellite/config/common.mk' "$ATHENA_MK" || fail "athena does not inherit common.mk"
+grep -q 'vendor/kiosk-satellite/config/show.mk' "$ATHENA_MK" || fail "athena does not inherit show.mk"
+grep -q 'device/kiosk-satellite/athena/device.mk' "$ATHENA_MK" || fail "athena does not inherit its device layer"
+! grep -q -E 'kiosk-satellite/(biscuit|crown|cronos|checkers|rook)' "$ATHENA_MK" || fail "athena inherits another Echo's layer"
+for other in biscuit crown cronos checkers; do
+  ! inherits "$other" | grep -q 'kiosk-satellite/athena' || fail "$other inherits the athena layer"
+done
+# Only athena's vendor image is a prebuilt one, so only it moves the Wi-Fi
+# overlay to product and leaves out the echo canceller for Amazon's MT8163
+# audio HAL. Both switches are set before the layers are inherited.
+for switch in 'ECHO_WIFI_OVERLAY_IN_PRODUCT := true' 'ECHO_SHOW_AMZNAEC := false'; do
+  grep -Fq "$switch" "$ATHENA_MK" || fail "athena does not set $switch"
+  [[ "$(grep -n -F "$switch" "$ATHENA_MK" | cut -d: -f1)" -lt \
+     "$(grep -n 'vendor/kiosk-satellite/config/common.mk' "$ATHENA_MK" | cut -d: -f1)" ]] ||
+    fail "athena sets $switch after it inherits the layers"
+  ! grep -rFq "$switch" patches device common || fail "$switch is set outside athena's device tree"
+done
 
 # One Show's settings in neither shared layer.
 for part in ro.echo.hostname= asr_capture ro.vendor.amznaec.engine= ro.vendor.amznaec.enable= \

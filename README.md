@@ -9,26 +9,31 @@
 <p align="center">
 <img src="https://img.shields.io/github/stars/jxlarrea/lineageos-echo-kiosk-satellite?style=for-the-badge&label=Stars&color=d6a102" alt="Stars">
 <a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases"><img src="https://img.shields.io/github/downloads/jxlarrea/lineageos-echo-kiosk-satellite/total?style=for-the-badge&label=Downloads&color=3fbf5f" alt="Downloads"></a>
-<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=checkers"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Freleases%3Fper_page%3D100&search=%22tag_name%22%3A%5Cs%2A%22checkers-%28%5B0-9.%5D%2B%29%22&replace=%241&label=Checkers&style=for-the-badge&cacheSeconds=3600&color=9FA0FF" alt="Echo Dot (1st gen) release"></a>    
-<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=cronos"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Freleases%3Fper_page%3D100&search=%22tag_name%22%3A%5Cs%2A%22cronos-%28%5B0-9.%5D%2B%29%22&replace=%241&label=Cronos&style=for-the-badge&cacheSeconds=3600&color=18bcf2" alt="Echo Show 5 (2nd gen) release"></a><br/>
-<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=crown"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Freleases%3Fper_page%3D100&search=%22tag_name%22%3A%5Cs%2A%22crown-%28%5B0-9.%5D%2B%29%22&replace=%241&label=Crown&style=for-the-badge&cacheSeconds=3600&color=e8604c" alt="Echo Show 8 (1st gen) release"></a>
-<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=biscuit"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Freleases%3Fper_page%3D100&search=%22tag_name%22%3A%5Cs%2A%22biscuit-%28%5B0-9.%5D%2B%29%22&replace=%241&label=Biscuit&style=for-the-badge&cacheSeconds=3600&color=5da3a6" alt="Echo Dot (2nd gen) release"></a>
+<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=checkers"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Fmain%2FCHANGELOG-checkers.md&search=%23%23%20%28%5Cd%7B4%7D%5C.%5Cd%2B%5C.%5Cd%2B%29%20-&replace=%241&label=Checkers&style=for-the-badge&cacheSeconds=3600&color=9FA0FF" alt="Echo Show 5 (1st gen) release"></a>    
+<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=cronos"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Fmain%2FCHANGELOG-cronos.md&search=%23%23%20%28%5Cd%7B4%7D%5C.%5Cd%2B%5C.%5Cd%2B%29%20-&replace=%241&label=Cronos&style=for-the-badge&cacheSeconds=3600&color=18bcf2" alt="Echo Show 5 (2nd gen) release"></a><br/>
+<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=crown"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Fmain%2FCHANGELOG-crown.md&search=%23%23%20%28%5Cd%7B4%7D%5C.%5Cd%2B%5C.%5Cd%2B%29%20-&replace=%241&label=Crown&style=for-the-badge&cacheSeconds=3600&color=e8604c" alt="Echo Show 8 (1st gen) release"></a>
+<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=athena"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Fmain%2FCHANGELOG-athena.md&search=%23%23%20%28%5Cd%7B4%7D%5C.%5Cd%2B%5C.%5Cd%2B%29%20-&replace=%241&label=Athena&style=for-the-badge&cacheSeconds=3600&color=c77dff" alt="Echo Show 8 (2nd gen) release"></a>
+<a href="https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/releases?q=biscuit"><img src="https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjxlarrea%2Flineageos-echo-kiosk-satellite%2Fmain%2FCHANGELOG-biscuit.md&search=%23%23%20%28%5Cd%7B4%7D%5C.%5Cd%2B%5C.%5Cd%2B%29%20-&replace=%241&label=Biscuit&style=for-the-badge&cacheSeconds=3600&color=5da3a6" alt="Echo Dot (2nd gen) release"></a>
 </p>
 
 <p align="center">
 <a href="https://buymeacoffee.com/jxlarrea"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
 </p>
 
-LineageOS 18.1 (Android 11) images for Amazon Echo devices, tuned to run [Kiosk Satellite](https://github.com/jxlarrea/kiosk-satellite) for Home Assistant. The Echo Shows run the full Kiosk Satellite experience on their screens. The Echo Dot has no screen, so it runs Kiosk Satellite headless as a voice satellite, intercom and speaker. Every image is built from one shared base, [R0rt1z2](https://github.com/R0rt1z2)'s LineageOS 18.1 port for the MT8163 Echos in [amazon-oss](https://github.com/amazon-oss), with a Kiosk Satellite Edition layer on top.
+LineageOS 18.1 (Android 11) images for Amazon Echo devices, tuned to run [Kiosk Satellite](https://github.com/jxlarrea/kiosk-satellite) for Home Assistant. The Echo Shows run the full Kiosk Satellite experience on their screens. The Echo Dot has no screen, so it runs Kiosk Satellite headless as a voice satellite, intercom and speaker. The images for the MT8163 Echos are built from one shared base, [R0rt1z2](https://github.com/R0rt1z2)'s LineageOS 18.1 port in [amazon-oss](https://github.com/amazon-oss). The Echo Show 8 (2nd gen) has a different chip and runs this repository's own port. Every image has the Kiosk Satellite Edition layer on top.
 
-| Device | Codename | Status | Guide |
-| --- | --- | --- | --- |
-| Echo Dot (2nd gen) | `biscuit` | Ready | [Echo Dot](docs/echo-dot.md) |
-| Echo Dot (3rd gen) | `donut` | Work in progress | Not yet |
-| Echo Show 5 (1st gen) | `checkers` | Ready | [Echo Show 5 (1st gen)](docs/echo-show-5-1st-gen.md) |
-| Echo Show 5 (2nd gen) | `cronos` | Ready | [Echo Show 5 (2nd gen)](docs/echo-show-5.md) |
-| Echo Show 8 (1st gen) | `crown` | Ready | [Echo Show 8](docs/echo-show-8.md) |
-| Echo Show 8 (2nd gen) | `athena` | Work in progress | Not yet |
+<div align="center">
+
+| Device | Codename | Model |
+| --- | --- | --- |
+| [Echo Dot (2nd gen)](docs/echo-dot.md) | `biscuit` | RS03QR |
+| [Echo Dot (3rd gen)](docs/echo-dot-3rd-gen.md) | `donut` | D9N29T |
+| [Echo Show 5 (1st gen)](docs/echo-show-5-1st-gen.md) | `checkers` | H23K37 |
+| [Echo Show 5 (2nd gen)](docs/echo-show-5.md) | `cronos` | C76N8S |
+| [Echo Show 8 (1st gen)](docs/echo-show-8.md) | `crown` | C7H6N3 |
+| [Echo Show 8 (2nd gen)](docs/echo-show-8-2nd-gen.md) | `athena` | A8H3N2 |
+
+</div>
 
 Each image leaves out what Kiosk Satellite never uses on that device, installs Kiosk Satellite on its first boot with every permission it needs and installs new releases of the image from this repository. The device's guide lists everything its image does.
 
@@ -57,7 +62,7 @@ Thank you to everyone who supports my work through [Buy Me a Coffee](https://buy
 
 ## Credits
 
-- [R0rt1z2](https://github.com/R0rt1z2), for the LineageOS 18.1 port for the MT8163 Echos in [amazon-oss](https://github.com/amazon-oss) that every image builds on, the Echo Show 5 (2nd gen) and the Echo Show 8 (1st gen) included. Also for amonet on the Echo Dot and the Echo Shows with its TWRP.
+- [R0rt1z2](https://github.com/R0rt1z2), for the LineageOS 18.1 port for the MT8163 Echos in [amazon-oss](https://github.com/amazon-oss) that the MT8163 images build on, the Echo Show 5 (2nd gen) and the Echo Show 8 (1st gen) included. Also for amonet on the Echo Dot and the Echo Shows with its TWRP and for the saiyaku unlock and TWRP on the Echo Show 8 (2nd gen).
 - [hkfuertes](https://github.com/hkfuertes), for the [CM14.1 port](https://github.com/hkfuertes/amazon_device_biscuit) of the Echo Dot. BiscuitService, the light ring daemon, the audio route and the light sensor HAL came from it.
 - [meiser79](https://github.com/meiser79), who brought the Echo Dot up on LineageOS 18.1 first. [Their port](https://github.com/meiser79/android_device_amazon_biscuit) guided the Echo Dot image.
 - xyz and k4y0z for amonet and its first Echo Dot port. k4y0z also made `fastbrick` with R0rt1z2.
