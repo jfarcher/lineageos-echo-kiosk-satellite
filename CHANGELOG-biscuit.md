@@ -2,9 +2,11 @@
 
 All notable changes to the Echo Dot (2nd gen) (`biscuit`) image are documented here. The [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## Unreleased
+## 2026.11.4 - 2026-11-13
 
 ### Changed
+- **The nightly storage trim runs.** Android's storage maintenance, which trims `/data` and `/cache`, waited for the device to be idle and charging. An Echo is never idle that way and most report no charging battery, so the trim never ran. It now runs once a day at 3 AM. Regular trims tell the eMMC which blocks are free, which helps it spread wear.
+- **No more error report every 30 minutes.** The kernel has no per-app network statistics, so Android's statistics poll failed every 30 minutes and on every network change and wrote an error report to storage each time. Android now reports empty statistics there. Data usage numbers were already empty on this kernel.
 - **New recommended volumes in the guide.** With Kiosk Satellite's equalizer, which is on by default on the Dot, the guide recommends master volume 100%, Kiosk Satellite's assistant and intercom volumes at 100% and its media player volume at 85%. It recommended master volume 75% before. Kiosk Satellite sets the new levels on a fresh install and moves a Dot that is already set up to them.
 - **The ring daemon moved to the shared layer.** `biscuit-ledd`, `biscuit-ledctl` and the animations are now in `common/leds`, where the Echo Dot (3rd gen) uses them too. Nothing changes on the Dot.
 - **The Dot's Kiosk Satellite Edition layer moved to the shared layer.** BiscuitService, the empty launcher, `ks-install`, the stopped services and the defaults are now in `common/dot` behind `common/config/dot.mk`, which both Echo Dots inherit. `device/biscuit` keeps what only this Dot has: system updates, the volume default, the speaker standby setting and sdcardfs storage. Nothing changes on the Dot.

@@ -2,9 +2,11 @@
 
 All notable changes to the Echo Show 5 (1st gen) (`checkers`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## Unreleased
+## 2026.11.2 - 2026-11-13
 
 ### Changed
+- **The nightly storage trim runs.** Android's storage maintenance, which trims `/data` and `/cache`, waited for the device to be idle and charging. An Echo is never idle that way and most report no charging battery, so the trim never ran. It now runs once a day at 3 AM. Regular trims tell the eMMC which blocks are free, which helps it spread wear.
+- **No more error report every 30 minutes.** The kernel has no per-app network statistics, so Android's statistics poll failed every 30 minutes and on every network change and wrote an error report to storage each time. Android now reports empty statistics there. Data usage numbers were already empty on this kernel.
 - **No lock sound.** With the lock screen off, Android still played its lock sound at every boot and each time the screen turned off. A fresh install now has the lock and unlock sounds off, and EchoService turns them off once on a Show that is already set up. Settings > Sound turns them back on.
 
 ## 2026.11.1 - 2026-11-09
