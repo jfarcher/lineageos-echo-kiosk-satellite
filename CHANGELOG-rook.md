@@ -2,7 +2,7 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## Unreleased
+## 2026.11.2 - 2026-11-14
 
 ### Changed
 - **The nightly storage trim runs.** Android's storage maintenance, which trims `/data` and `/cache`, waited for the device to be idle and charging, which an Echo never is. It now runs once a day at 3 AM, which helps the eMMC spread wear. From upstream.
