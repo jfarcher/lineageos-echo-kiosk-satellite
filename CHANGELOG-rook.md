@@ -2,6 +2,22 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
+## Unreleased
+
+These changes are by [Peter Meiser](https://github.com/meiser79), from [their fork](https://github.com/meiser79/lineageos-echo-kiosk-satellite), where they were tested on a Spot.
+
+### Fixed
+- **The camera's colour.** The camera software, which comes from the Echo Show 5 (1st gen), never got the Spot's tuning, so pictures were grey and too bright by day and red in dim light. The camera now uses the Show 5's tuning with the Spot sensor's own gains, exposure and white balance. The black level is corrected, so a covered lens is black instead of red. Colour noise is lower, and exposures are longer in dim light.
+- **Bluetooth stays up.** The Bluetooth chip went to sleep with no way to wake it, so Bluetooth restarted each time Kiosk Satellite's Bluetooth proxy started a scan. The chip now stays awake.
+- **Bluetooth audio plays to headphones and speakers.** The Spot connected to them but kept playing through its own speaker, and could only receive audio from phones. It now does both.
+- **No Bluetooth audio stutter while scanning.** Android's balanced scan holds back Bluetooth audio for a second at a time on the Spot's chip. EchoService now sets 30 ms scan windows every 120 ms on a fresh install.
+- **Wi-Fi no longer drops every minute or two.** The Wi-Fi driver sends log data the Wi-Fi HAL did not expect, and the HAL crashed reading past it.
+
+### Changed
+- **Amazon's voice processing passes the microphones through.** Its ASR and Voice pipelines no longer change the audio before Kiosk Satellite hears it, as on the Echo Show 5. The noise suppression setting is no longer set, since the Spot has no EchoParts.
+- **Android's usual button.** The Spot has no privacy chip, so a short press turns the screen on and off and holding it opens the power menu. `echo_service button` no longer mentions a privacy chip on the Spot.
+- **The Echo Spot guide.** [docs/echo-spot.md](docs/echo-spot.md), with Spot sections in the unlocking and TWRP guides.
+
 ## 2026.11.2 - 2026-11-14
 
 ### Changed
