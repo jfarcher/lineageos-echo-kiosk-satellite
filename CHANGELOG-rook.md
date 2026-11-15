@@ -2,9 +2,9 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## Unreleased
+## 2026.11.3 - 2026-11-15
 
-These changes are by [Peter Meiser](https://github.com/meiser79), from [their fork](https://github.com/meiser79/lineageos-echo-kiosk-satellite), where they were tested on a Spot.
+Improvements from  [Peter Meiser's](https://github.com/meiser79) [fork](https://github.com/meiser79/lineageos-echo-kiosk-satellite), where they were tested on a Spot.
 
 ### Fixed
 - **The camera's colour.** The camera software, which comes from the Echo Show 5 (1st gen), never got the Spot's tuning, so pictures were grey and too bright by day and red in dim light. The camera now uses the Show 5's tuning with the Spot sensor's own gains, exposure and white balance. The black level is corrected, so a covered lens is black instead of red. Colour noise is lower, and exposures are longer in dim light.
