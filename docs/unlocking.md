@@ -61,6 +61,28 @@ The update rewrites the Dot's bootloader, so never unplug the Dot while it runs.
 </details>
 
 <details>
+<summary><h2 id="echo-dot-3rd-gen">Echo Dot (3rd gen)</h2></summary>
+
+Use [R0rt1z2](https://github.com/R0rt1z2)'s unlock for the Echo Dot (3rd gen). R0rt1z2's [XDA thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-dot-3rd-gen-2018-donut.4801400/) has the package, the requirements and every step. It installs TWRP 3.7.0_9-0, which is what the image needs.
+
+> [!CAUTION]
+> The unlock and the image are only for the Echo Dot (3rd gen) released in 2018, model D9N29T, codename `donut`. Amazon also sold a revised Echo Dot (3rd gen) in 2019 and 2020, model C78MP8, codename `crumpet`. It has different hardware and neither the unlock nor the image works on it. Check the model number on the bottom of the Dot before you open it.
+
+> [!WARNING]
+> The Echo Dot (3rd gen) has no USB port. To unlock it, you have to open the Dot and solder a USB cable to test pads on its board. You need a soldering iron and some practice with it.
+
+This page does not repeat the procedure. The thread explains the steps that need care with pictures, so follow the thread itself and ask there if something is unclear.
+
+Leave the cable in place after the unlock. TWRP is only reachable over USB, so installing the image needs it too.
+
+> [!IMPORTANT]
+> Do not set up the Dot in the Alexa app before you unlock it. If it gets on Wi-Fi, Fire OS can update to a build the unlock does not support. Check the thread for the supported builds first.
+
+The unlock lives in the bootloader, the preloader and the partitions that hold TWRP. The image never writes them. Do not write them with other tools either.
+
+</details>
+
+<details>
 <summary><h2 id="echo-show-5-1st-gen">Echo Show 5 (1st gen)</h2></summary>
 
 Use [R0rt1z2](https://github.com/R0rt1z2)'s amonet 2 package for the Echo Show 5 (1st gen), linked from R0rt1z2's [XDA thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-show-5-1st-gen-2019-checkers.4762900/). Its `fastbrick` script unlocks the Show over USB and writes TWRP 3.7.0_9-0, which is what the image needs.
@@ -181,6 +203,42 @@ A Show unlocked earlier with amonet 1 has TWRP 3.2.3, which the image does not s
    ```
 
 The system that was on the Show does not boot on amonet 2, so install the image right after.
+
+</details>
+
+<details>
+<summary><h2 id="echo-show-8-2nd-gen">Echo Show 8 (2nd gen)</h2></summary>
+
+Use [R0rt1z2](https://github.com/R0rt1z2)'s saiyaku package for the Echo Show 8 (2nd gen), linked from R0rt1z2's [XDA thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-show-8-2nd-gen-2021-athena.4804958/). It unlocks the Show over USB and writes TWRP 3.7.0_9-0, which is what the image needs. This Show has a different chip from the other Echo Shows, so it is not unlocked with amonet or `fastbrick`.
+
+> [!WARNING]
+> saiyaku only works on the Fire OS versions the XDA thread lists. Check the Show's version before you run it. If the version is not listed, it is not supported.
+
+### What you need
+
+- The Echo Show 8 (2nd gen), its power adapter and a micro USB cable that carries data, plugged straight into the computer without a hub.
+- A computer with Linux or Windows and Python 3 with `pyserial`. On Windows, also install the USB drivers the XDA thread names.
+- `saiyaku-athena-v1.1.1.zip` from the XDA thread.
+
+### Get the Show on a supported Fire OS
+
+The XDA thread links the [list of supported versions](https://ftvdb.com/echo/firmware/com.amazon.athena.android.os/). The unlock for this guide was run on Fire OS 7575.1 (PS75751/7809).
+
+1. Read the version on the Show under **Settings > Device Options > About**.
+2. If it is older than the listed ones, set the Show up, join Wi-Fi and let Fire OS update. Use **Settings > Device Options > Check for Software Updates** until it finds nothing more. Fire OS cannot go back to an older version.
+3. Take the Show off Wi-Fi once it is on a listed version, so Fire OS cannot update past the list before you unlock it.
+
+### Run saiyaku
+
+Follow the steps in the XDA thread. In short:
+
+1. Extract `saiyaku-athena-v1.1.1.zip` and install its one Python requirement with `pip install -r requirements.txt`.
+2. Run `./meta-step.sh` on Linux or `meta-step.bat` on Windows, then connect the Show as the thread describes.
+3. saiyaku prints the Fire OS version it finds on the Show. If that is not the version the Show's settings showed or not a listed one, stop and let Fire OS finish updating first.
+
+saiyaku rewrites the Show's bootloader, so never unplug the Show while it runs. When it ends, the Show restarts into TWRP. After the unlock, hold **Volume Up** while plugging in the power to start TWRP. Hold **Volume Down** to start fastboot.
+
+The unlock lives in the bootloader, the preloader and the recovery partition. The image never writes them. Do not write them with other tools either.
 
 </details>
 

@@ -18,8 +18,8 @@ STATE_FILE="$STATE_DIR/patches.sha256"
 TOUCHED_FILE="$STATE_DIR/touched-files"
 
 case "$DEVICE" in
-  crown|cronos|checkers|rook|biscuit) ;;
-  *) echo "ERROR: set DEVICE to crown, cronos, checkers, rook or biscuit" >&2; exit 1 ;;
+  crown|cronos|checkers|athena|rook|biscuit|donut) ;;
+  *) echo "ERROR: set DEVICE to crown, cronos, checkers, athena, rook, biscuit or donut" >&2; exit 1 ;;
 esac
 
 [[ -d "$TREE/build" ]] || { echo "ERROR: LineageOS 18.1 not synced at $TREE" >&2; exit 1; }
@@ -102,7 +102,7 @@ copy_sources() {
   copy_dir "$REPO_ROOT/common" "$TREE/vendor/kiosk-satellite"
   # Only the device being built, so two devices never define the same module.
   mkdir -p "$TREE/device/kiosk-satellite"
-  rsync -a --delete --exclude .git --include "/$DEVICE/***" --exclude '*' \
+  rsync -a --delete --delete-excluded --exclude .git --include "/$DEVICE/***" --exclude '*' \
     "$REPO_ROOT/device/" "$TREE/device/kiosk-satellite/"
   while IFS= read -r tree; do
     copy_dir "$REPO_ROOT/sources/$tree" "$TREE/$tree"

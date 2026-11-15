@@ -51,6 +51,55 @@ The image never writes TWRP, the bootloader or the partition table, so a Dot tha
 
 If you ask for help, include what both `twrp install` runs and `bcbtool get_active` printed. Say whether adb ever shows the Dot during a restart.
 
+## Echo Dot (3rd gen)
+
+The image installs from TWRP 3.7.0_9-0, the recovery that comes with R0rt1z2's unlock.
+
+### Starting TWRP
+
+If the Dot is running, connect it over USB and run:
+
+```sh
+adb reboot recovery
+```
+
+Within about half a minute, `adb devices -l` lists the Dot as `recovery`.
+
+If the Dot does not boot, R0rt1z2's [XDA thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-dot-3rd-gen-2018-donut.4801400/) covers starting TWRP and repairing a Dot from outside Android.
+
+TWRP has no screen on the Dot. Everything runs over `adb shell`. The `twrp` command does what its buttons would on a phone, such as `twrp install` and `twrp wipe`.
+
+### Checking the version
+
+```sh
+adb shell getprop ro.twrp.version
+```
+
+It must print `3.7.0_9-0`.
+
+### Leaving TWRP
+
+```sh
+adb reboot
+```
+
+Run `adb devices -l` after about half a minute. If it lists the Dot as `recovery` again, run `adb reboot` once more. After a stay in TWRP of more than a few seconds, the Dot's bootloader often starts TWRP a second time. The reboot after that one starts Android. Nothing is wrong with the Dot or the install when this happens.
+
+System updates handle this themselves: the update leaves TWRP a script that reboots.
+
+### The two slots
+
+The Dot has two slots, A and B. The [installation](echo-dot-3rd-gen.md#installing) installs the image into both. The bootloader starts the active slot, with that slot's kernel and system. These commands show and switch the active slot from TWRP:
+
+```sh
+adb shell bcbtool get_active
+adb shell bcbtool set_active b
+```
+
+After switching, reboot into TWRP and run `get_active` again before installing. The installer checks that TWRP points at the active slot and stops with `assert failed` if it does not.
+
+TWRP is in a partition of its own, outside both slots. The image never writes it, the bootloader or the partition table. If a slot does not boot after an install, start TWRP, switch to the other slot with `bcbtool set_active` and reboot.
+
 ## Echo Show 5 (1st gen)
 
 The image installs from TWRP 3.7.0_9-0, the recovery that comes with amonet 2.
@@ -134,3 +183,31 @@ It must print `3.7.0_9-0`. A Show that prints `3.2.3-0` is still on amonet 1. [U
 ### One slot
 
 The Show has one copy of each partition, with no slots. An install replaces the system that was there, so if it fails, only TWRP starts until an install succeeds. TWRP's `wipe data` keeps the internal storage in `/sdcard`.
+
+## Echo Show 8 (2nd gen)
+
+The image installs from TWRP 3.7.0_9-0, the recovery that comes with the saiyaku unlock.
+
+### Starting TWRP
+
+If the Show is running, connect it over USB and run:
+
+```sh
+adb reboot recovery
+```
+
+Within about half a minute, `adb devices -l` lists the Show as `recovery`. TWRP has a touch screen on the Show, but the guide runs everything over `adb shell`. The `twrp` command does what its buttons do, such as `twrp install` and `twrp wipe`. TWRP has no adb over Wi-Fi, so connect the Show over USB even if you use adb over Wi-Fi in Android.
+
+If the Show does not boot, unplug its power, hold **Volume Up** and plug the power back in. Keep holding until TWRP shows. R0rt1z2's [XDA thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-show-8-2nd-gen-2021-athena.4804958/) covers unbricking it over USB.
+
+### Checking the version
+
+```sh
+adb shell getprop ro.twrp.version
+```
+
+It must print `3.7.0_9-0`.
+
+### One slot
+
+The Show has one copy of each partition, with no slots. An install replaces the system that was there, so if it fails, only TWRP starts until an install succeeds. TWRP's `wipe data` keeps the internal storage in `/sdcard`. The image never writes the recovery partition, so TWRP stays as the unlock installed it.

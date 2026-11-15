@@ -28,8 +28,8 @@ DIST="$WORKSPACE_DIR/releases"
 fail() { echo "ERROR: $*" >&2; exit 1; }
 
 case "$DEVICE" in
-  biscuit|crown|cronos|checkers|rook) ;;
-  *) fail "set DEVICE to biscuit, crown, cronos, checkers or rook" ;;
+  biscuit|donut|crown|cronos|checkers|athena|rook) ;;
+  *) fail "set DEVICE to biscuit, donut, crown, cronos, checkers, athena or rook" ;;
 esac
 for tool in gh git openssl sha256sum unzip; do
   command -v "$tool" >/dev/null || fail "required tool not found: $tool"
@@ -59,7 +59,10 @@ gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1 && fail "$GH_REPO alrea
 
 # The newest build, checked the way a release must be. check-image.sh also
 # fails when the image reports another release than the changelog's.
-BUILT="$(ls -t "$OUT"/lineage-18.1-*-"$DEVICE".zip 2>/dev/null | head -n 1)"
+BUILT="$(ls -t "$OUT"/lineage-18.1-*-"$DEVICE".zip 2>/dev/null | head -n 1 || true)"
+# A build still running in its container has no zip yet, or only a part of one.
+docker ps --format '{{.Names}}' 2>/dev/null | grep -qx "lineage-18.1-$DEVICE-build" &&
+  fail "the $DEVICE build is still running: wait for it (docker logs -f lineage-18.1-$DEVICE-build)"
 [[ -f "$BUILT" ]] || fail "no built zip for $DEVICE in $OUT: run CLEAN=1 make $DEVICE"
 # An empty first argument keeps check-image.sh's own target files zip.
 DEVICE="$DEVICE" "$REPO_ROOT/scripts/check-image.sh" "" "$BUILT" ||
@@ -69,7 +72,7 @@ DEVICE="$DEVICE" "$REPO_ROOT/scripts/check-image.sh" "" "$BUILT" ||
 # Echos reject every release signed with it.
 KEY="${BISCUIT_OTA_KEY:-$HOME/.config/biscuit-ota/release-key.pem}"
 PUBLIC="$REPO_ROOT/common/ota/release-key.pem"
-[[ "$DEVICE" == biscuit ]] && PUBLIC="$REPO_ROOT/device/biscuit/ota/release-key.pem"
+[[ "$DEVICE" == biscuit || "$DEVICE" == donut ]] && PUBLIC="$REPO_ROOT/common/dot/ota/release-key.pem"
 [[ -f "$KEY" ]] || fail "no private key at $KEY (set BISCUIT_OTA_KEY)"
 key_fp="$(openssl pkey -in "$KEY" -pubout -outform DER | sha256sum | cut -c1-16)"
 public_fp="$(openssl pkey -pubin -in "$PUBLIC" -outform DER | sha256sum | cut -c1-16)"

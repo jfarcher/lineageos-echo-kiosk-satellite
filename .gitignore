@@ -6,7 +6,7 @@ workspace
 # that the images ship to check update signatures are tracked.
 *.pem
 !common/ota/release-key.pem
-!device/biscuit/ota/release-key.pem
+!common/dot/ota/release-key.pem
 *.key
 *.pk8
 *.p12

@@ -1,0 +1,24 @@
+//
+// SPDX-FileCopyrightText: 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+prebuilt_etc {
+    name: "init.mt8167.rc",
+    src: "init.mt8167.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.mt8167.usb.rc",
+    src: "init.mt8167.usb.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+sh_binary {
+    name: "donut-btmac",
+    src: "donut-btmac.sh",
+    vendor: true,
+}

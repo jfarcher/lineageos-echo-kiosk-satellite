@@ -1,0 +1,66 @@
+# The image's Wi-Fi and Bluetooth modules. Fire OS's vendor init scripts load
+# their own from /vendor/lib/modules at the same point, which fails: those
+# are for Fire OS's 32-bit kernel.
+on post-fs-data
+    # No shell on the serial port. While it runs, Android shows a "Serial
+    # console enabled" notification at every boot.
+    stop console
+
+    insmod /system/lib/modules/wlan_mt76x3_sdio_prealloc.ko
+    insmod /system/lib/modules/wlan_mt76x3_sdio.ko
+    insmod /system/lib/modules/btmtksdio.ko
+
+# The image's own wpa_supplicant in place of the one on Fire OS's vendor
+# partition, with the arguments its init.connectivity.rc gives it.
+service wpa_supplicant /system/bin/hw/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/vendor/etc/wifi/wpa_supplicant.conf \
+    -I/vendor/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/vendor/wifi/wpa/sockets \
+    -g@android:wpa_wlan0
+    override
+    interface android.hardware.wifi.supplicant@1.0::ISupplicant default
+    interface android.hardware.wifi.supplicant@1.1::ISupplicant default
+    interface android.hardware.wifi.supplicant@1.2::ISupplicant default
+    interface android.hardware.wifi.supplicant@1.3::ISupplicant default
+    socket wpa_wlan0 dgram 660 wifi wifi
+    class main
+    disabled
+    oneshot
+
+# Fire OS's vendor partition starts Amazon services LineageOS has no use
+# for. init stops each as it starts, which leaves the vendor image as
+# Amazon built it: the two neural network HALs (about 25 MB, nothing on the Show uses
+# NNAPI), Ring's halo service, Amazon's device health attestation and its
+# Wi-Fi and touch statistics loggers.
+on property:init.svc.neuralnetworks_hal_service_gpunn=running
+    stop neuralnetworks_hal_service_gpunn
+
+on property:init.svc.neuralnetworks_hal_service_apunn=running
+    stop neuralnetworks_hal_service_apunn
+
+on property:init.svc.halo-1-0=running
+    stop halo-1-0
+
+on property:init.svc.fireosdha-2.0=running
+    stop fireosdha-2.0
+
+on property:init.svc.wlan_stats=running
+    stop wlan_stats
+
+on property:init.svc.touchlogger=running
+    stop touchlogger
+
+# The recovery partition holds the TWRP the unlock put there. Nothing in
+# the image installs a recovery, and this keeps a service that would from
+# ever running.
+service vendor_flash_recovery /system/bin/true
+    class main
+    oneshot
+    disabled
+
+# Both CPU clusters at full clock, as on the other Echo Shows. With the
+# kernel's default governor the clock dropped at idle and Kiosk Satellite and
+# the audio HAL took twice the CPU time for the same work, for 1 degree less.
+on property:sys.boot_completed=1
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor performance
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor performance

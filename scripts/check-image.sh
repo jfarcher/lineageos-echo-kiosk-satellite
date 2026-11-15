@@ -14,8 +14,8 @@ DEVICE="${DEVICE:-}"
 OUT="$TREE/out/target/product/$DEVICE"
 
 case "$DEVICE" in
-  biscuit|crown|cronos|checkers|rook) ;;
-  *) echo "ERROR: set DEVICE to biscuit, crown, cronos, checkers or rook" >&2; exit 2 ;;
+  biscuit|donut|crown|cronos|checkers|athena|rook) ;;
+  *) echo "ERROR: set DEVICE to biscuit, donut, crown, cronos, checkers, athena or rook" >&2; exit 2 ;;
 esac
 
 TARGET_FILES="${1:-$(ls "$OUT"/obj/PACKAGING/target_files_intermediates/lineage_"$DEVICE"-target_files-*.zip 2>/dev/null | head -n 1)}"
@@ -65,7 +65,17 @@ default_prop() {
 # Every Echo: the Wi-Fi overlay and pryond, the service that runs Amazon's
 # wake word engine from files the user installs (common.mk). The image ships
 # none of Amazon's libraries or models, under any path.
-must_have "vendor/overlay/EchoWifiOverlay\.apk" "bin/pryond$" "etc/init/pryond\.rc$"
+must_have "bin/pryond$" "etc/init/pryond\.rc$"
+# The overlay is on the vendor partition, or on the product partition of the
+# Echo Show 8 (2nd gen), whose vendor image the build cannot add to. Never both:
+# they are the same package.
+if [[ "$DEVICE" == athena ]]; then
+  must_have "product/overlay/EchoWifiOverlayProduct\.apk"
+  must_not_have "vendor/overlay/EchoWifiOverlay\.apk"
+else
+  must_have "vendor/overlay/EchoWifiOverlay\.apk"
+  must_not_have "product/overlay/EchoWifiOverlayProduct\.apk"
+fi
 must_not_have "bin/biscuit-pryond$" "etc/init/biscuit-pryond\.rc$" "lib/pryon/" "etc/pryon/" \
   "(.*/)?lib(pryon|pryonConfig|watermars|AFEMetadataDecoder|NeMoRt|nemort-cnpy|acsl|blu_native_toolkit|grxml_parser)\.so$" \
   "(.*/)?(pryon\.manifest|pryon\.config|kw\.cfg\.json|op\.cfg\.json|words\.shrunk\.txt)$"
@@ -100,7 +110,7 @@ SHOW_PARTS=(
   "etc/echo-ota/"
 )
 
-if [[ "$DEVICE" == biscuit ]]; then
+if [[ "$DEVICE" == biscuit || "$DEVICE" == donut ]]; then
   must_have "${DOT_PARTS[@]}"
   must_not_have "${SHOW_PARTS[@]}"
   RELEASE_PROP_NAME=ro.biscuit.release
@@ -155,7 +165,63 @@ boot_animation() {
   expect default_prop ro.config.wallpaper /system/media/wallpaper.png
 }
 
+# What only the Echo Show 8 (2nd gen) has: its vendor image is Fire OS's as
+# built, so the volume curves, wpa_supplicant and the Wi-Fi and Bluetooth
+# modules are in system. The other Shows have the image's echo canceller in
+# Amazon's MT8163 audio HAL instead, which it leaves out.
+ATHENA_PARTS=(
+  "etc/audio_policy_engine_configuration\.xml$"
+  "etc/audio_policy_engine_stream_volumes\.xml$"
+  "bin/hw/wpa_supplicant$"
+  "lib/modules/wlan_mt76x3_sdio\.ko$"
+  "lib/modules/btmtksdio\.ko$"
+  "etc/init/init\.athena\.rc$"
+)
+AMZNAEC_PARTS=(
+  "(.*/)?libamznaec_shim\.so$"
+  "(.*/)?init\.kiosk-satellite\.audio\.rc$"
+)
 case "$DEVICE" in
+  athena) must_have "${ATHENA_PARTS[@]}"; must_not_have "${AMZNAEC_PARTS[@]}" ;;
+  biscuit) must_not_have "${ATHENA_PARTS[@]}" ;;
+  # The Echo Dot (3rd gen) has the MT7668's Bluetooth module too.
+  donut) for part in "${ATHENA_PARTS[@]}"; do
+      [[ "$part" == *btmtksdio* ]] || must_not_have "$part"
+    done ;;
+  *) must_have "${AMZNAEC_PARTS[@]}"; must_not_have "${ATHENA_PARTS[@]}" ;;
+esac
+
+case "$DEVICE" in
+  athena)
+    expect default_prop ro.echo.hostname echo-show-8-g2-ks
+    expect default_prop ro.echo.privacy_hold ""
+    expect default_prop persist.sys.audio.noise_suppression ""
+    expect prop ro.vendor.audio.asr_capture ""
+    expect prop ro.vendor.amznaec.enable ""
+    expect prop ro.vendor.amznaec.engine ""
+    expect prop ro.config.media_vol_default 18
+    # The vendor image is Fire OS 7575.1's as Amazon built it, by checksum
+    # (blobs/athena, scripts/athena-vendor.sh). The build adds nothing to
+    # it, and the OTA zip writes exactly that image, so the Show boots
+    # whatever system wrote its vendor partition before.
+    grep -q '^SYSTEM/vendor/' <<<"$FILES" && fail "has files under system/vendor, which is only the link to the vendor partition"
+    grep -q '^VENDOR/' <<<"$FILES" && fail "has a vendor image the build made, not Fire OS's"
+    read -r VENDOR_SUM VENDOR_SIZE <"$REPO_ROOT/blobs/athena/vendor.img.sha256"
+    [[ "$(unzip -p "$TARGET_FILES" IMAGES/vendor.img | sha256sum | cut -d' ' -f1)" == "$VENDOR_SUM" ]] ||
+      fail "the vendor image is not the one in blobs/athena/vendor.img.sha256"
+    [[ "$(unzip -p "$OTA" vendor.img | sha256sum | cut -d' ' -f1)" == "$VENDOR_SUM" ]] ||
+      fail "the OTA zip does not carry the vendor image in blobs/athena/vendor.img.sha256"
+    unzip -p "$OTA" META-INF/com/google/android/updater-script |
+      grep -q 'package_extract_file("vendor.img", "/dev/block/platform/bootdevice/by-name/vendor")' ||
+      fail "the OTA zip does not write the vendor partition"
+    # The recovery partition holds the TWRP the unlock installed. The zip must
+    # not write it and the image must carry nothing that would at boot.
+    unzip -Z1 "$OTA" | grep -qi 'recovery' && fail "the OTA zip has a recovery file"
+    unzip -p "$OTA" META-INF/com/google/android/updater-script | grep -qi 'recovery' &&
+      fail "the OTA zip's updater-script touches recovery"
+    must_not_have "(.*/)?install-recovery\.sh$" "(.*/)?recovery-from-boot\.p$" "(.*/)?recovery\.img$"
+    boot_animation 800
+    ;;
   crown)
     expect default_prop ro.echo.hostname echo-show-8-ks
     expect default_prop ro.echo.privacy_hold 1
@@ -205,7 +271,36 @@ case "$DEVICE" in
     wrapper_has_asr_capture && fail "the audio HAL wrapper has the Echo Show 8's ASR capture"
     boot_animation 480
     ;;
-  biscuit)
+  biscuit|donut)
+    # The recovery partition holds the TWRP the unlock installed. The zip
+    # writes the boot and system partitions of the slot TWRP booted on,
+    # through TWRP's links, and nothing else. The image carries nothing that
+    # would write recovery at boot.
+    unzip -Z1 "$OTA" | grep -qi 'recovery' && fail "the OTA zip has a recovery file"
+    SCRIPT="$(unzip -p "$OTA" META-INF/com/google/android/updater-script)"
+    grep -qi 'recovery' <<<"$SCRIPT" && fail "the OTA zip's updater-script touches recovery"
+    grep -q 'block_image_update("/dev/block/current-system"' <<<"$SCRIPT" ||
+      fail "the OTA zip does not write system through /dev/block/current-system"
+    grep -q 'package_extract_file("boot.img", "/dev/block/current-boot")' <<<"$SCRIPT" ||
+      fail "the OTA zip does not write boot through /dev/block/current-boot"
+    grep -oE '"/dev/block/[^"]*"' <<<"$SCRIPT" | sort -u |
+      grep -vxE '"/dev/block/current-(system|boot)"|"/dev/block/mmcblk0p1[0134]"' | grep -q . &&
+      fail "the OTA zip's updater-script names a partition other than the slot's boot and system"
+    # The build leaves a copy of its recovery image in vendor/etc, which
+    # nothing installs: the script that would is not in the image.
+    must_not_have "(.*/)?install-recovery\.sh$" "(.*/)?recovery-from-boot\.p$"
+    if [[ "$DEVICE" == donut ]]; then
+      unzip -p "$TARGET_FILES" SYSTEM/vendor/etc/init/hw/init.mt8167.rc |
+        grep -A1 '^service vendor_flash_recovery /system/bin/true' | grep -q override ||
+        fail "init does not turn off vendor_flash_recovery"
+      # No vendor partition: everything the image needs is in system, which
+      # the zip always writes.
+      grep -q '^VENDOR/' <<<"$FILES" && fail "has a vendor image, but the Dot has no vendor partition"
+      unzip -Z1 "$OTA" | grep -q '^vendor' && fail "the OTA zip has a vendor image"
+      must_have "vendor/lib/hw/audio\.primary\.donut\.so$" "vendor/lib/hw/sensors\.biscuit\.so$" \
+        "lib/modules/wlan_mt76x8_sdio\.ko$" "bin/biscuit-ledd$"
+      expect prop ro.biscuit.ota.dir /data/biscuit-ota
+    fi
     must_not_have "media/wallpaper\.png$"
     expect default_prop ro.config.wallpaper ""
     for height in 480 800; do

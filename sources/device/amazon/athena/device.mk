@@ -1,0 +1,70 @@
+#
+# SPDX-FileCopyrightText: 2026 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# The Echo Show 8 (2nd gen) shipped with Android 9 and a Treble vendor
+# partition. The image is a system for Fire OS 7575.1's vendor image, which
+# it ships as Amazon built it (BOARD_PREBUILT_VENDORIMAGE): it builds no
+# vendor image of its own and brings the VNDK 28 libraries Fire OS's HALs
+# link against.
+PRODUCT_SHIPPING_API_LEVEL := 28
+PRODUCT_EXTRA_VNDK_VERSIONS := 28
+PRODUCT_BUILD_VENDOR_IMAGE := false
+
+# 1280x800 at 213 dpi
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := tvdpi
+TARGET_SCREEN_HEIGHT := 800
+TARGET_SCREEN_WIDTH := 1280
+
+$(call inherit-product, frameworks/native/build/tablet-7in-xhdpi-2048-dalvik-heap.mk)
+
+PRODUCT_COPY_FILES += \
+    device/amazon/athena/configs/fstab.mt8183:$(TARGET_COPY_OUT_SYSTEM)/etc/fstab.mt8183
+
+# SELinux mapping files under the version name Fire OS's vendor policy uses
+PRODUCT_PACKAGES += \
+    athena_28.0.0.cil \
+    athena_28.0.0.compat.cil
+
+# Wi-Fi
+PRODUCT_PACKAGES += \
+    wpa_supplicant \
+    athena_supplicant_manifest
+
+PRODUCT_COPY_FILES += \
+    device/amazon/athena/configs/init.athena.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/init.athena.rc
+
+# Volume curves. Fire OS's audio_policy_volumes.xml on the vendor partition
+# is in Amazon's own format and Android 11 loads no curve from it, so every
+# stream would play at full volume. The audio policy engine reads these from
+# system instead (patches/athena/frameworks/av).
+# The stream volumes file holds this Show's speaker curves, which stop at
+# -6 dB.
+AUDIO_ENGINE_CONFIG := frameworks/av/services/audiopolicy/enginedefault/config/example/phone
+PRODUCT_COPY_FILES += \
+    $(AUDIO_ENGINE_CONFIG)/audio_policy_engine_configuration.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy_engine_configuration.xml \
+    $(AUDIO_ENGINE_CONFIG)/audio_policy_engine_product_strategies.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy_engine_product_strategies.xml \
+    device/amazon/athena/configs/audio_policy_engine_stream_volumes.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy_engine_stream_volumes.xml \
+    $(AUDIO_ENGINE_CONFIG)/audio_policy_engine_default_stream_volumes.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy_engine_default_stream_volumes.xml
+
+# Overlays: no telephony, the navigation bar, automatic brightness, the
+# always-on display, Bluetooth as a speaker and no battery icon. They are
+# built into their packages, as the layer's are (show.mk).
+DEVICE_PACKAGE_OVERLAYS += \
+    device/amazon/athena/overlay
+
+# The network stack and tethering inside system_server, as on the other
+# Echos, which saves their two processes. The layer's DHCP hostname overlay
+# (EchoNetworkStackOverlay) is for this network stack.
+PRODUCT_PACKAGES += \
+    InProcessNetworkStack \
+    com.android.tethering.inprocess
+
+# Apps compiled in full at build and install time, as on the Echo Show 8
+# (1st gen). The default waits for usage profiles a kiosk never builds up.
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := speed
+PRODUCT_PRODUCT_PROPERTIES += \
+    pm.dexopt.bg-dexopt=speed \
+    pm.dexopt.install=speed

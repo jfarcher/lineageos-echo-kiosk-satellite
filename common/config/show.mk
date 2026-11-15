@@ -1,7 +1,7 @@
 #
 # The Kiosk Satellite Edition layer every Echo Show inherits on top of
 # common.mk. The Echo Dot does not: it has BiscuitService and its own
-# ks-install, init and defaults (device/biscuit). stage-tree.sh copies
+# ks-install, init and defaults (dot.mk). stage-tree.sh copies
 # common/ to vendor/kiosk-satellite in the tree.
 #
 
@@ -16,10 +16,14 @@ PRODUCT_PACKAGES += \
 
 # Echo cancellation on the microphones (audio/amznaec): the FPGA's copy of
 # the speaker signal is the reference, so the wake word works over music.
-# Each device sets ro.vendor.amznaec.gain_db for its microphone gain.
+# Each device sets ro.vendor.amznaec.gain_db for its microphone gain. It
+# loads into Amazon's MT8163 audio HAL, so a Show with another audio HAL
+# sets ECHO_SHOW_AMZNAEC to false before it inherits this file.
+ifneq ($(ECHO_SHOW_AMZNAEC),false)
 PRODUCT_PACKAGES += \
     libamznaec_shim \
     init.kiosk-satellite.audio.rc
+endif
 
 # Kiosk Satellite on first boot, with its grants and device owner. curl
 # fetches it from GitHub.
