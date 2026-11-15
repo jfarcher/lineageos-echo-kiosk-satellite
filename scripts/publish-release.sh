@@ -59,7 +59,10 @@ gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1 && fail "$GH_REPO alrea
 
 # The newest build, checked the way a release must be. check-image.sh also
 # fails when the image reports another release than the changelog's.
-BUILT="$(ls -t "$OUT"/lineage-18.1-*-"$DEVICE".zip 2>/dev/null | head -n 1)"
+BUILT="$(ls -t "$OUT"/lineage-18.1-*-"$DEVICE".zip 2>/dev/null | head -n 1 || true)"
+# A build still running in its container has no zip yet, or only a part of one.
+docker ps --format '{{.Names}}' 2>/dev/null | grep -qx "lineage-18.1-$DEVICE-build" &&
+  fail "the $DEVICE build is still running: wait for it (docker logs -f lineage-18.1-$DEVICE-build)"
 [[ -f "$BUILT" ]] || fail "no built zip for $DEVICE in $OUT: run CLEAN=1 make $DEVICE"
 # An empty first argument keeps check-image.sh's own target files zip.
 DEVICE="$DEVICE" "$REPO_ROOT/scripts/check-image.sh" "" "$BUILT" ||
