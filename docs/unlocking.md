@@ -255,6 +255,7 @@ Use [R0rt1z2](https://github.com/R0rt1z2)'s amonet package for the Echo Spot (1s
 
 - The Echo Spot (1st gen), its power adapter and a USB cable that carries data.
 - A computer with Linux, macOS or Windows. The package brings its own `fastboot`.
+- The Spot off Wi-Fi until it is unlocked, so Fire OS cannot update itself first. Check the XDA thread for the Fire OS versions the package supports.
 
 ### Run fastbrick
 
