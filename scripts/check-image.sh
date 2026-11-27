@@ -260,14 +260,25 @@ case "$DEVICE" in
     boot_animation 480
     ;;
   rook)
-    # Not tested on hardware: the audio values are the Echo Show 5 (2nd gen)'s.
+    # The Spot's libasp has no asp.cfg and reads passthrough from properties.
+    # Its Broadcom Wi-Fi driver (kernel/amazon/bcmdhd), which init.insmod.cfg loads.
+    must_have "vendor/lib/modules/amzn-bcmdhd\.ko$"
     expect default_prop ro.echo.hostname echo-spot-ks
+    # No privacy chip and no light for one: Android's usual button.
     expect default_prop ro.echo.privacy_hold ""
-    expect default_prop persist.sys.audio.noise_suppression 0
+    expect default_prop ro.config.power_privacy_state ""
+    expect default_prop ro.echo.button_long_press 1
+    # Balanced BLE scans in short windows, so the Broadcom controller keeps A2DP going.
+    expect default_prop ro.echo.ble_scan_balanced_window_ms 30
+    expect default_prop ro.echo.ble_scan_balanced_interval_ms 120
+    expect default_prop persist.sys.audio.noise_suppression ""
     expect prop ro.vendor.audio.asr_capture ""
+    expect prop ro.vendor.audio.asr_capture_gain_db ""
     expect prop ro.vendor.amznaec.enable 0
     expect prop ro.vendor.amznaec.engine 2
     expect prop ro.config.media_vol_default 10
+    expect prop persist.asp.asr.passthrough true
+    expect prop persist.asp.voice.passthrough true
     wrapper_has_asr_capture && fail "the audio HAL wrapper has the Echo Show 8's ASR capture"
     boot_animation 480
     ;;
