@@ -2,6 +2,11 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
+## Unreleased
+
+### Changed
+- **The voice capture sources record the raw microphone** ([kiosk-satellite #1622](https://github.com/jxlarrea/kiosk-satellite/discussions/1622)). An app that recorded on Android's voice communication or voice recognition source got Amazon's VoIP or ASR pipeline instead of microphone 0. Android now opens both sources as a plain microphone capture, the raw microphone 0 that Kiosk Satellite records on. From upstream.
+
 ## 2026.11.3 - 2026-11-15
 
 Improvements from  [Peter Meiser's](https://github.com/meiser79) [fork](https://github.com/meiser79/lineageos-echo-kiosk-satellite), where they were tested on a Spot.
