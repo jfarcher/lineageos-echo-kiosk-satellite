@@ -5,7 +5,13 @@ All notable changes to the Echo Show 5 (1st gen) (`checkers`) image are document
 ## Unreleased
 
 ### Changed
+- **The guide explains Android's Private DNS** ([#63](https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/issues/63)). Android keeps Private DNS on Automatic. When the router hands out a public DNS server such as 8.8.8.8 next to the local one, Android sends every lookup to the public server. A Home Assistant name that only the local DNS server knows then resolves to its public address, where a login page or a proxy can keep voice answers from playing. The Network section now shows how to check which servers Android picked and how to turn Private DNS off.
+
+## 2026.11.3 - 2026-11-27
+
+### Changed
 - **The unlocking guide no longer says to update Fire OS** ([#53](https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/issues/53)). A newer Fire OS build or bootloader can have the exploit patched and Fire OS cannot go back to an older version. The Echo Show 5 (1st gen) section told a Show on the 2019 bootloader to install every update. It now says not to and points at the XDA thread for the bootloaders `fastbrick` supports and the test point inside the case.
+- **The voice capture sources record the raw microphone** ([kiosk-satellite #1622](https://github.com/jxlarrea/kiosk-satellite/discussions/1622)). An app that recorded on Android's voice communication or voice recognition source got Amazon's VoIP or ASR pipeline instead of microphone 0. Kiosk Satellite could move to these sources while the privacy button was on and keep them after privacy turned off, so it heard Amazon's processed audio until its capture restarted. Android now opens both sources as a plain microphone capture, the raw microphone 0 that Kiosk Satellite records on.
 
 ## 2026.11.2 - 2026-11-13
 

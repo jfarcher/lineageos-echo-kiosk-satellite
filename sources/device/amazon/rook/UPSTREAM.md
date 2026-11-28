@@ -14,6 +14,13 @@ The vendor tree's `proprietary/` files are not copied. `scripts/extract-rook-blo
 - `lineage_rook.mk` inherits the Kiosk Satellite Edition layers (`vendor/kiosk-satellite/config/common.mk`, `show.mk` and `device/kiosk-satellite/rook/device.mk`), and the model is `Echo Spot (KS)`.
 - `BoardConfig.mk` sets `TARGET_RELEASETOOLS_EXTENSIONS := vendor/kiosk-satellite/releasetools`.
 - This file.
+- Four fixes from [Peter Meiser's fork](https://github.com/meiser79/lineageos-echo-kiosk-satellite), which keeps them as patches against amazon-oss commit `c34c2d7`, one before ours. They are applied here directly, each in a commit of its own:
+  - `camera/libcameracustom_shim.cpp`: the camera tuning, from their `patches/rook/device/amazon/rook/0006-rook-Give-the-camera-tuning-it-can-read.patch`.
+  - `configs/vnd_rook.txt`: `LPM_SLEEP_MODE = 0`, from their `0004-rook-Keep-the-Bluetooth-controller-awake.patch`.
+  - `overlay/packages/apps/Bluetooth/res/values/config.xml`: both A2DP roles, from their `0003-rook-Support-both-A2DP-roles.patch`.
+  - `configs/audio_policy_configuration.xml` and `vendor.prop`: A2DP through `audio.a2dp.default`, from their `0005-rook-Play-A2DP-audio-through-audio.a2dp.default.patch`.
+
+  When taking an amazon-oss change to these files, keep these edits.
 
 ## Checking for upstream fixes
 
