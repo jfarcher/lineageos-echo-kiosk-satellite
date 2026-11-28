@@ -2,7 +2,7 @@
 
 All notable changes to the Echo Spot (1st gen) (`rook`) image are documented here. The [Echo Dot (2nd gen)](CHANGELOG-biscuit.md), [Echo Show 5 (1st gen)](CHANGELOG-checkers.md), [Echo Show 5 (2nd gen)](CHANGELOG-cronos.md) and [Echo Show 8 (1st gen)](CHANGELOG-crown.md) have their own.
 
-## 2026.11.3 - 2026-11-28
+## 2026.11.4 - 2026-11-28
 
 ### Changed
 - **The guide explains Android's Private DNS** ([#63](https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/issues/63)). When the router hands out a public DNS server such as 8.8.8.8 next to the local one, Android can send every lookup to the public server, and a Home Assistant name only the local server knows then resolves to its public address. The Network section of [docs/echo-spot.md](docs/echo-spot.md) shows how to check which servers Android picked and how to turn Private DNS off. From upstream.
