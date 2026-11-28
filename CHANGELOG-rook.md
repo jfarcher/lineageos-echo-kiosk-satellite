@@ -5,6 +5,7 @@ All notable changes to the Echo Spot (1st gen) (`rook`) image are documented her
 ## Unreleased
 
 ### Changed
+- **The guide explains Android's Private DNS** ([#63](https://github.com/jxlarrea/lineageos-echo-kiosk-satellite/issues/63)). When the router hands out a public DNS server such as 8.8.8.8 next to the local one, Android can send every lookup to the public server, and a Home Assistant name only the local server knows then resolves to its public address. The Network section of [docs/echo-spot.md](docs/echo-spot.md) shows how to check which servers Android picked and how to turn Private DNS off. From upstream.
 - **The voice capture sources record the raw microphone** ([kiosk-satellite #1622](https://github.com/jxlarrea/kiosk-satellite/discussions/1622)). An app that recorded on Android's voice communication or voice recognition source got Amazon's VoIP or ASR pipeline instead of microphone 0. Android now opens both sources as a plain microphone capture, the raw microphone 0 that Kiosk Satellite records on. From upstream.
 
 ## 2026.11.3 - 2026-11-15
